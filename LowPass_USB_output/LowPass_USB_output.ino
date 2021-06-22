@@ -1,12 +1,10 @@
 /*
-*   BasicGain
+*   LowPass Filtering with USB Output 
 *
-*   Created: Chip Audette, Nov 2016
-*   Purpose: Process audio using Tympan by applying gain.
+*   Created: Nithin Raj, June 2021
+*   Purpose: Process audio using Tympan by applying low pass filter and transmitting filtered audio to an external computer.
 *
-*   Blue potentiometer adjusts the digital gain applied to the audio signal.
-*
-*   Uses default sample rate of 44100 Hz with Block Size of 128
+*   Blue potentiometer adjusts the digital gain/cutoff frequency applied to the audio signal.
 *
 *   MIT License.  use at your own risk.
 */
