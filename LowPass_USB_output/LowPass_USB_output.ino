@@ -14,7 +14,7 @@
 #include "AudioEffectLowpassFD_F32.h"  //the local file holding your custom function
 
 //set the sample rate and block size
-const float sample_rate_Hz = 22050.0f ; //24000 or 44117 (or other frequencies in the table in AudioOutputI2S_F32)
+const float sample_rate_Hz = 24000.0f ; //24000 or 44117 (or other frequencies in the table in AudioOutputI2S_F32)
 const int audio_block_samples = 128;     //do not make bigger than AUDIO_BLOCK_SAMPLES from AudioStream.h (which is 128)
 AudioSettings_F32 audio_settings(sample_rate_Hz, audio_block_samples);
 
@@ -43,47 +43,6 @@ AudioConnection_F32       patchCord12(audioEffectLowpassFD_2, 0, i2s_out, 1);  /
 float input_gain_dB = 20.0f; //gain on the microphone
 //float vol_knob_gain_dB = 0.0;      //will be overridden by volume knob/
 
-// From FrankB - brilliant!
-void setI2SFreq(int freq)
-{
-  typedef struct {
-    uint8_t mult;
-    uint16_t div;
-  } __attribute__((__packed__)) tmclk;
-
-  const int numfreqs = 8;
-  const int samplefreqs[numfreqs] = { 8000, 11025, 16000, 22050, 32000, 44100, 44117 , 48000 };
-
-#if (F_PLL==16000000)
-  const tmclk clkArr[] = {{16, 125}, {148, 839}, {32, 125}, {145, 411}, {64, 125}, {151, 214}, {12, 17}, {96, 125} };
-#elif (F_PLL==72000000)
-  const tmclk clkArr[] = {{32, 1125}, {49, 1250}, {64, 1125}, {49, 625}, {128, 1125}, {98, 625}, {8, 51}, {64, 375} };
-#elif (F_PLL==96000000)
-  const tmclk clkArr[] = {{8, 375}, {60, 2041}, {16, 375}, {120, 2041}, {32, 375}, {147, 1250}, {2, 17}, {16, 125} };
-#elif (F_PLL==120000000)
-  const tmclk clkArr[] = {{32, 1875}, {29, 1233}, {64, 1875}, {89, 1892}, {128, 1875}, {89, 946}, {8, 85}, {64, 625} };
-#elif (F_PLL==144000000)
-  const tmclk clkArr[] = {{16, 1125}, {40, 2041}, {32, 1125}, {49, 1250}, {64, 1125}, {49, 625}, {4, 51}, {32, 375} };
-#elif (F_PLL==180000000)
-  const tmclk clkArr[] = {{9, 791}, {31, 1977}, {37, 1626}, {62, 1977}, {73, 1604}, {107, 1706}, {16, 255}, {128, 1875} };
-#elif (F_PLL==192000000)
-  const tmclk clkArr[] = {{4, 375}, {30, 2041}, {8, 375}, {60, 2041}, {16, 375}, {120, 2041}, {1, 17}, {8, 125} };
-#elif (F_PLL==216000000)
-  const tmclk clkArr[] = {{17, 1793}, {17, 1301}, {34, 1793}, {49, 1875}, {49, 1292}, {98, 1875}, {8, 153}, {64, 1125} };
-#elif (F_PLL==240000000)
-  const tmclk clkArr[] = {{16, 1875}, {24, 2041}, {32, 1875}, {29, 1233}, {64, 1875}, {89, 1892}, {4, 85}, {32, 625} };
-#endif
-
-  for (int f = 0; f < numfreqs; f++) {
-    if ( freq == samplefreqs[f] ) {
-      while (I2S0_MCR & I2S_MCR_DUF) ;
-      I2S0_MDR = I2S_MDR_FRACT((clkArr[f].mult - 1)) | I2S_MDR_DIVIDE((clkArr[f].div - 1));
-      return;
-    }
-  }
-}
-
-
 void setup() {
   //begin the serial comms (for debugging)
   Serial.begin(115200);  delay(500);
@@ -93,7 +52,6 @@ void setup() {
 
   //allocate the dynamic memory for audio processing blocks
   AudioMemory(20); AudioMemory_F32(40, audio_settings); 
-  setI2SFreq(22050);
   int N_FFT = 512;
   audioEffectLowpassFD_1.setup(audio_settings,N_FFT); //do after AudioMemory_F32();
   audioEffectLowpassFD_2.setup(audio_settings,N_FFT); //do after AudioMemory_F32();

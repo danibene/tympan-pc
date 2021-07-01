@@ -1,0 +1,8 @@
+colorzero==2.0
+gpiozero==1.5.1
+munch==2.5.0
+-e git+https://github.com/nikhiljohn10/pi-clap.git@23b349019c850e32def4959a7c94eb654ce56995#egg=pi_clap
+PyAudio==0.2.11
+pyserial==3.5
+six==1.16.0
+Wave==0.0.2

@@ -9,11 +9,10 @@ for i in range(p.get_device_count()):
     if("Teensy" in dev):
         dev_id = i
         break
-    elif("pulse" in dev):
+    elif("default" in dev):
         dev_id = i
         break
-
-# print(i, p.get_device_info_by_index(i).get('name'))
+    print(i, p.get_device_info_by_index(i).get('name'))
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 2 # 1 channel
