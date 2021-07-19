@@ -14,3 +14,5 @@ To test the clap detection script:
  * Run the **clap.py** script (found in the *external_scripts* folder) 
  * Press c to confirm the default settings (recalibrator is a bit buggy at the moment) and clap away!
  * If you clap once, you should also see *One clap detected* on the serial monitor found in the Arduino IDE. 
+
+Make sure that the **clap.py** code and the Arduino code have the same sampling rate. The default sampling rate for USB transmission is *44,117 Hz*. In case you wish to change the sampling rate, follow this *[tutorial](https://critias.ca/dokuwiki/doku.php?id=i:abc:arp:arp_4_0:tympan_usb)*. 
