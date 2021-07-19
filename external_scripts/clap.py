@@ -14,9 +14,10 @@ class Config(Settings):
     on the number of claps detected.
     '''
 
-    def __init__(self):
+    def __init__(self, sampling_rate):
         Settings.__init__(self)
-        self.method.value = 10000
+        self.method.value = 16000
+        self.rate = sampling_rate
         self.arduino = serial.Serial('/dev/ttyACM0', baudrate=115200, timeout=.1)
 
     def serialWrite(self, x):
@@ -37,7 +38,7 @@ class Config(Settings):
 
 
 def main():
-    config = Config()
+    config = Config(44117)
     listener = Listener(config=config, calibrate=False)
     listener.start()
 

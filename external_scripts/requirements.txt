@@ -1,7 +1,7 @@
 colorzero==2.0
 gpiozero==1.5.1
 munch==2.5.0
--e git+https://github.com/nikhiljohn10/pi-clap.git@23b349019c850e32def4959a7c94eb654ce56995#egg=pi_clap
+-e git+https://gitlab.critias.ca/critias_projects/stage/stage_nithin_raj/pi-clap@ee4c8f1df1d56b709a8b970c7392297acd0c5e0a#egg=pi_clap
 PyAudio==0.2.11
 pyserial==3.5
 six==1.16.0

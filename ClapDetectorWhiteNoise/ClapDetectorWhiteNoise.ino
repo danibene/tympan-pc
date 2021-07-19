@@ -15,7 +15,7 @@
 #include <Tympan_Library.h>  //include the Tympan Library
 
 //set the sample rate and block size
-const float sample_rate_Hz = 24000.0f ; //24000 or 44117 (or other frequencies in the table in AudioOutputI2S_F32)
+const float sample_rate_Hz = 44117.0f ; //24000 or 44117 (or other frequencies in the table in AudioOutputI2S_F32)
 const int audio_block_samples = 128;     //do not make bigger than AUDIO_BLOCK_SAMPLES from AudioStream.h (which is 128)
 AudioSettings_F32 audio_settings(sample_rate_Hz, audio_block_samples);
 
@@ -34,12 +34,9 @@ AudioConnection_F32       patchCord2(i2s_in, 1, convertF32toI16_2, 0);    //conn
 AudioConnection           patchCord41(convertF32toI16_1, 0, i2s_usb_out, 0);  //left output ("0")
 AudioConnection           patchCord42(convertF32toI16_2, 0, i2s_usb_out, 1);  //right output ("1")
 //AudioConnection_F32       patchCord31(i2s_in, 0, mixer4, 0);
-//AudioConnection_F32       patchCOrd32(noiseWhite1, 0, mixer4, 1);
-//AudioConnection_F32       patchCord11(mixer4, 0, i2s_out, 0);  //connect the Left gain to the Left output
-//AudioConnection_F32       patchCord12(mixer4, 0, i2s_out, 1);  //connect the Right gain to the Right output
-AudioConnection_F32       patchCord21(i2s_in, 0, i2s_out, 0);
-AudioConnection_F32       patchCord22(i2s_in, 1, i2s_out, 1);
-
+//AudioConnection_F32       patchCord32(noiseWhite1, 0, mixer4, 1);
+AudioConnection_F32       patchCord11(i2s_in, 0, i2s_out, 0);  //connect the Left gain to the Left output
+AudioConnection_F32       patchCord12(i2s_in, 0, i2s_out, 1);  //connect the Right gain to the Right output
 
 // define the setup() function, the function that is called once when the device is booting
 const float input_gain_dB = 20.0f; //gain on the microphone
@@ -52,6 +49,7 @@ void setup() {
 
   //allocate the dynamic memory for audio processing blocks
   AudioMemory(20); AudioMemory_F32(40); 
+///  noiseWhite1.amplitude(0.0125);
 
   //Enable the Tympan to start the audio flowing!
   myTympan.enable(); // activate the Tympan's audio module

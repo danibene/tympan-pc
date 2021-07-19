@@ -8,17 +8,18 @@ for i in range(p.get_device_count()):
     dev = p.get_device_info_by_index(i).get('name')
     if("Teensy" in dev):
         dev_id = i
+        print(i, p.get_device_info_by_index(i).get('name'))
         break
     elif("default" in dev):
         dev_id = i
         break
-    print(i, p.get_device_info_by_index(i).get('name'))
+   # print(i, p.get_device_info_by_index(i).get('name'))
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 2 # 1 channel
-samp_rate = 44117 # 44.1kHz sampling rate
-chunk = 128 
-record_secs = 7 # seconds to record
+samp_rate = 24000 # 44.1kHz sampling rate
+chunk = 128
+record_secs = 20 # seconds to record
 dev_index = dev_id # device index found by p.get_device_info_by_index(ii)
 filename = 'test4.wav' # name of .wav file
 
