@@ -18,6 +18,7 @@ class Config(Settings):
         Settings.__init__(self)
         self.method.value = 16000
         self.rate = sampling_rate
+        self.chunk_size = 512
         self.arduino = serial.Serial('/dev/ttyACM0', baudrate=115200, timeout=.1)
 
     def serialWrite(self, x):
