@@ -11,7 +11,7 @@ The **LowPass_USB_Output** and the **ClapDetectorWhiteNoise** folders contain th
 To test the clap detection script:
  * Run the ClapDetectorWhiteNoise code on the Tympan. 
  * Open the **external_scripts** folder, and install the python modules by running **pip3 install -r requirements.txt**
- * Now, install the pi-clap module by running **pip3 install -e git+https://gitlab.critias.ca/critias_projects/stage/stage_nithin_raj/pi-clap@ee4c8f1df1d56b709a8b970c7392297acd0c5e0a#egg=pi_clap**
+ * Now, install the pi-clap module by running **pip3 install -e git+https://gitlab.critias.ca/critias_projects/stage/stage_nithin_raj/pi-clap#egg=pi_clap**
  * Run the **clap.py** script (found in the *external_scripts* folder) 
  * Press c to confirm the default settings (recalibrator is a bit buggy at the moment) and clap away!
  * If you clap once, you should also see *One clap detected* on the serial monitor found in the Arduino IDE. 
