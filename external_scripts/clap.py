@@ -27,7 +27,7 @@ class Config(Settings):
 
     def on1Claps(self):
         print("To be sent to Tympan")
-        self.serialWrite("One clap detected"+"\n")
+        self.serialWrite("m"+"\n")
 
     def on2Claps(self):
         '''Custom action for 2 claps'''

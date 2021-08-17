@@ -1,30 +1,28 @@
 /*
-*   BasicGain
+*   Clap Detector 
 *
-*   Created: Chip Audette, Nov 2016
-*   Purpose: Process audio using Tympan by applying gain.
-*
-*   Blue potentiometer adjusts the digital gain applied to the audio signal.
-*
-*   Uses default sample rate of 44100 Hz with Block Size of 128
+*   Created: Nithin Raj, July 2021
+*   Purpose: Process input audio based on serial commands
 *
 *   MIT License.  use at your own risk.
 */
 
 //here are the libraries that we need
 #include <Tympan_Library.h>  //include the Tympan Library
+#include "SerialManager.h"
 
 //set the sample rate and block size
-const float sample_rate_Hz = 44117.0f ; //24000 or 44117 (or other frequencies in the table in AudioOutputI2S_F32)
+const float sample_rate_Hz = 24000.0f ; //24000 or 44117 (or other frequencies in the table in AudioOutputI2S_F32)
 const int audio_block_samples = 128;     //do not make bigger than AUDIO_BLOCK_SAMPLES from AudioStream.h (which is 128)
 AudioSettings_F32 audio_settings(sample_rate_Hz, audio_block_samples);
 
 //create audio library objects for handling the audio
 Tympan                    myTympan(TympanRev::D, audio_settings);  //do TympanRev::D or TympanRev::C
 AudioInputI2S_F32         i2s_in(audio_settings);        //Digital audio *from* the Tympan AIC.
-//AudioSynthNoiseWhite_F32  noiseWhite1(audio_settings);
+AudioSynthNoiseWhite_F32  noiseWhite1(audio_settings);
 AudioConvert_F32toI16     convertF32toI16_1, convertF32toI16_2;
-//AudioMixer4_F32           mixer4(audio_settings);
+AudioMixer4_F32           mixer4_1(audio_settings);
+AudioMixer4_F32           mixer4_2(audio_settings);
 AudioOutputUSB            i2s_usb_out;
 AudioOutputI2S_F32        i2s_out(audio_settings);       //Digital audio *to* the Tympan AIC.  Always list last to minimize latency
 
@@ -33,14 +31,18 @@ AudioConnection_F32       patchCord1(i2s_in, 0, convertF32toI16_1, 0);    //conn
 AudioConnection_F32       patchCord2(i2s_in, 1, convertF32toI16_2, 0);    //connect the Right input
 AudioConnection           patchCord41(convertF32toI16_1, 0, i2s_usb_out, 0);  //left output ("0")
 AudioConnection           patchCord42(convertF32toI16_2, 0, i2s_usb_out, 1);  //right output ("1")
-//AudioConnection_F32       patchCord31(i2s_in, 0, mixer4, 0);
-//AudioConnection_F32       patchCord32(noiseWhite1, 0, mixer4, 1);
-AudioConnection_F32       patchCord11(i2s_in, 0, i2s_out, 0);  //connect the Left gain to the Left output
-AudioConnection_F32       patchCord12(i2s_in, 0, i2s_out, 1);  //connect the Right gain to the Right output
+AudioConnection_F32       patchCord31(i2s_in, 0, mixer4_1, 0);
+AudioConnection_F32       patchCord32(noiseWhite1, 0, mixer4_1, 1);
+AudioConnection_F32       patchCord33(i2s_in, 1, mixer4_2, 0);
+AudioConnection_F32       patchCord34(noiseWhite1, 0, mixer4_2, 1);
+AudioConnection_F32       patchCord11(mixer4_1, 0, i2s_out, 0);  //connect the Left gain to the Left output
+AudioConnection_F32       patchCord12(mixer4_2, 0, i2s_out, 1);  //connect the Right gain to the Right output
 
 // define the setup() function, the function that is called once when the device is booting
 const float input_gain_dB = 20.0f; //gain on the microphone
 float vol_knob_gain_dB = 0.0;      //will be overridden by volume knob
+SerialManager serialManager(mixer4_1, mixer4_2);
+
 void setup() {
 
   //begin the serial comms (for debugging)
@@ -49,7 +51,7 @@ void setup() {
 
   //allocate the dynamic memory for audio processing blocks
   AudioMemory(20); AudioMemory_F32(40); 
-///  noiseWhite1.amplitude(0.0125);
+  noiseWhite1.amplitude(0.0125);
 
   //Enable the Tympan to start the audio flowing!
   myTympan.enable(); // activate the Tympan's audio module
@@ -57,7 +59,7 @@ void setup() {
   //Choose the desired input
   myTympan.inputSelect(TYMPAN_INPUT_ON_BOARD_MIC);     // use the on board microphones
   //myTympan.inputSelect(TYMPAN_INPUT_JACK_AS_MIC);    // use the microphone jack - defaults to mic bias 2.5V
-  //myTympan.inputSelect(TYMPAN_INPUT_JACK_AS_LINEIN); // use the microphone jack - defaults to mic bias OFF
+//  myTympan.inputSelect(TYMPAN_INPUT_JACK_AS_LINEIN); // use the microphone jack - defaults to mic bias OFF
 
   //Set the desired volume levels
   myTympan.volume_dB(0);                   // headphone amplifier.  -63.6 to +24 dB in 0.5dB steps.
@@ -70,12 +72,14 @@ void setup() {
 } //end setup()
 
 
+bool enable_printCPUandMemory = false;
 // define the loop() function, the function that is repeated over and over for the life of the device
 void loop() {
 
   //check the potentiometer
   servicePotentiometer(millis(),100); //service the potentiometer every 100 msec
-  while (Serial.available()) Serial.print((char)Serial.read());   //USB
+  if (enable_printCPUandMemory) myTympan.printCPUandMemory(millis(),3000);  //print every 3000 msec
+  while (Serial.available()) serialManager.respondToByte((char)Serial.read());   //USB
 
 } //end loop();
 

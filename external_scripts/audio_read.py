@@ -17,7 +17,7 @@ for i in range(p.get_device_count()):
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 2 # 1 channel
-samp_rate = 44117 #sampling rate
+samp_rate = 24000 #sampling rate
 chunk = 128
 record_secs = 5 # seconds to record
 dev_index = dev_id # device index found by p.get_device_info_by_index(ii)
