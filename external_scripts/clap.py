@@ -19,7 +19,7 @@ class Config(Settings):
         self.method.value = 16000
         self.rate = sampling_rate
         self.chunk_size = 512
-        self.arduino = serial.Serial('/dev/ttyACM0', baudrate=115200, timeout=.1)
+        self.arduino = serial.Serial('COM12', baudrate=115200, timeout=.1)
 
     def serialWrite(self, x):
         self.arduino.write(bytes(x, 'utf-8'))
