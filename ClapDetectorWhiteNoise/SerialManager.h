@@ -50,7 +50,7 @@ void SerialManager::respondToByte(char c) {
       enable_printCPUandMemory = false;
       break; 
     case 'm':
-      myTympan.prinltn("Received: toggling masking noise");
+      myTympan.println("Received: toggling masking noise");
       if(mask) {
         mixer_1.gain(1, 0.f);
         mixer_2.gain(1, 0.f); 
