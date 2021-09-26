@@ -4,6 +4,7 @@ import os
 import sys
 import serial
 import time
+import serial.tools.list_ports
 
 from piclap import *
 
@@ -19,7 +20,19 @@ class Config(Settings):
         self.method.value = 16000
         self.rate = sampling_rate
         self.chunk_size = 512
-        self.arduino = serial.Serial('/dev/ttyACM0', baudrate=115200, timeout=.1)
+        print('Search...')
+        ports = serial.tools.list_ports.comports(include_links=False)
+        for port in ports :
+            print('Find port '+ port.device)
+        if(ports == []):
+            print("No serial devices found")
+            exit(0)
+        ser = serial.Serial(port.device)
+        if ser.isOpen():
+            ser.close()
+
+        print('Connect ' + ser.name)
+        self.arduino = serial.Serial(port.device, baudrate=115200, timeout=.1)
 
     def serialWrite(self, x):
         self.arduino.write(bytes(x, 'utf-8'))
@@ -39,7 +52,7 @@ class Config(Settings):
 
 
 def main():
-    config = Config(44117)
+    config = Config(24000)
     listener = Listener(config=config, calibrate=False)
     listener.start()
 
