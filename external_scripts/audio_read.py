@@ -6,7 +6,8 @@ dev_id = -1;
 # used to get the device index of the Tympan
 for i in range(p.get_device_count()):
     dev = p.get_device_info_by_index(i).get('name')
-    if("Teensy" in dev):
+    print(str(dev))
+    if("Teens" in str(dev)):
         dev_id = i
         print(i, p.get_device_info_by_index(i).get('name'))
         break
@@ -17,9 +18,10 @@ for i in range(p.get_device_count()):
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 2 # 1 channel
-samp_rate = 24000 #sampling rate
+samp_rate = 44117 #sampling rate
 chunk = 128
 record_secs = 5 # seconds to record
+print(dev_id)
 dev_index = dev_id # device index found by p.get_device_info_by_index(ii)
 filename = 'test4.wav' # name of .wav file
 

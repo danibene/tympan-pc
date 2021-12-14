@@ -27,24 +27,28 @@ class Config(Settings):
         if(ports == []):
             print("No serial devices found")
             exit(0)
-        ser = serial.Serial(port.device)
+        ser = serial.Serial("COM7")
         if ser.isOpen():
             ser.close()
 
         print('Connect ' + ser.name)
-        self.arduino = serial.Serial(port.device, baudrate=115200, timeout=.1)
+        self.arduino = serial.Serial("COM7", baudrate=115200, timeout=.1)
 
     def serialWrite(self, x):
         self.arduino.write(bytes(x, 'utf-8'))
         time.sleep(0.05)
 
     def on1Claps(self):
-        print("To be sent to Tympan")
-        self.serialWrite("m"+"\n")
+        '''Custom action for 1 clap'''
+        print("Nothing sent to Tympan")
+        # print("To be sent to Tympan")
+        # self.serialWrite("m"+"\n")
 
     def on2Claps(self):
         '''Custom action for 2 claps'''
-        print("Light flashed on pin 4")
+        print("To be sent to Tympan")
+        self.serialWrite("m"+"\n")
+        # print("Light flashed on pin 4")
 
     def on3Claps(self):
         '''Custom action for 3 claps'''
@@ -52,7 +56,7 @@ class Config(Settings):
 
 
 def main():
-    config = Config(24000)
+    config = Config(44117)
     listener = Listener(config=config, calibrate=False)
     listener.start()
 
