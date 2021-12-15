@@ -5,7 +5,7 @@ There are two main components in the pipeline code:
  - The Python script which receives audio input and sends commands to the Tympan via serial transmission. 
  
 The **LowPass_USB_Output** and the **ClapDetectorWhiteNoise** folders contain the Tympan code for low pass filtering and clap detection respectively :
- - LowPass_USB_Output : This code was used to demonstrate USB transmission. The cutoff frequency can be varied using the potentiometer on the Tympan. For more details refer to this *[tutorial](https://gitlab.critias.ca/critias_projects/stage/stage_nithin_raj/try/-/wikis/Transmitting-Audio-From-the-Tympan-to-a-PC)* in the wiki.
+ - LowPass_USB_Output : This code was used to demonstrate USB transmission. The cutoff frequency can be varied using the potentiometer on the Tympan. For more details on the USB audio transmission refer to *[this page](https://github.com/danibene/tympan-pc/wiki/Transmitting-Audio-From-the-Tympan-to-a-PC)* in the wiki.
  - ClapDetectorWhiteNoise : This code plays white noise when a clap is detected by the Python script running on the external PC. 
  
 To test the clap detection script:
