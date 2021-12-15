@@ -1,5 +1,9 @@
 ## Tympan-PC Pipeline
 
+Benesch, D., Raj, K. N., & Voix, J. (2021). [A general-purpose pipeline to interface the Tympan hardware with an external computer.](https://asa.scitation.org/doi/abs/10.1121/10.0008241)The Journal of the Acoustical Society of America, 150(4), A266-A266.
+
+Our project for the [Tympan Open Source Audio Processing ASA 2021 Challenge](https://shop.tympan.org/pages/asa-conference-2021). The slides presented at ASA can be downloaded [here](https://critias.ca/groupoffice/index.php?r=files/file/download&id=9094680&inline=false&random_code=U7PkAt3srDX).
+
 There are two main components in the pipeline code: 
  - The Arduino code which contains audio elements and USB transmission. 
  - The Python script which receives audio input and sends commands to the Tympan via serial transmission. 
