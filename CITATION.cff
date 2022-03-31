@@ -11,18 +11,25 @@ authors:
       and Technol., McGill Univ.
     orcid: 'https://orcid.org/0000-0002-2002-2325'
   - given-names: Kocherla Nithin
+    family-names: Raj
+    email: nraj@critias.ca
     affiliation: >-
       NSERC-EERS Industrial Res. Chair in In-Ear
       Technologies, École de Technologie Supérieure
-    family-names: Raj
-    email: nraj@critias.ca
     orcid: 'https://orcid.org/0000-0002-1907-2528'
-  - affiliation: >-
+  - given-names: Rachel E.
+    family-names: Bouserhal
+    email: rachel.bouserhal@etsmtl.ca
+    affiliation: >-
+      NSERC-EERS Industrial Res. Chair in In-Ear
+      Technologies, École de Technologie Supérieure
+    orcid: 'https://orcid.org/0000-0003-0460-5798'
+  - given-names: Jérémie
+    family-names: Voix
+    email: jeremie.voix@etsmtl.ca
+    affiliation: >-
       NSERC-EERS Industrial Res. Chair in In-Ear
       Technologies
-    given-names: Jérémie
-    family-names: Voix
-    email: jvoix@critias.ca
     orcid: 'https://orcid.org/0000-0002-0097-4054'
 version: 1.0.0
 doi: 10.5281/zenodo.6381998
